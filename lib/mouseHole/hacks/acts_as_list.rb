@@ -1,4 +1,4 @@
-require 'activerecord' 
+require 'active_record' 
 unless ActiveRecord::Base.respond_to? :acts_as_list  
   # this code is entirely cribbed from 
   # http://dev.rubyonrails.org/browser/plugins/acts_as_list
