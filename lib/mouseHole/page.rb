@@ -23,10 +23,10 @@ module MouseHole
       @status = status
       @input = Camping.qsp(uri.query)
       @headers = PageHeaders[*headers]
-      ctype = @headers['Content-Type'].split(";")
+      ctype = @headers['Content-Type']
       ctype = ctype.first if ctype.respond_to? :first
       if ctype
-        @converter = Converters.detect_by_mime_type ctype
+        @converter = Converters.detect_by_mime_type ctype.split(";")
       end
     end
 
