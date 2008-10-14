@@ -10,7 +10,7 @@ module MouseHole
 
     attr_reader :token
     attr_accessor :document, :path, :mount_on, :mtime, :active,
-      :registered_uris, :klass, :model, :app_style,
+      :registered_uris, :klass, :model, :app_style, 
       *METADATA
 
     def basic_setup
@@ -67,11 +67,11 @@ module MouseHole
       end
     end
 
-    def rewrite_request? page
+    def request_rewrites? request
       false
     end
 
-    def do_request_rewrite(page)
+    def do_request_rewrite(request)
       nrequest = nil
       begin
         nrequest = request_rewrite(request)
