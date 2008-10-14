@@ -31,6 +31,7 @@ module MouseHole
 
     def process(request, response)
       start = Time.now
+      request = @central.rewrite_request(request)
       uri, reqh, env = page_prep(request)
         
       if uri.path =~ %r!/([\w\-]{32})/!

@@ -107,6 +107,21 @@ module MouseHole
       true
     end
    
+    def find_request_rewrites request
+      refresh_apps
+      @apps.values.find_all do |app|
+        app.request_rewrites? request
+      end
+    end
+
+    def rewrite_request(request)
+      apps = find_request_rewrites request
+      apps.each do |app|
+        request = app.do_request_rewrite(request)
+      end
+      request
+    end
+
     def app_list
       refresh_apps
       self.user_apps.values

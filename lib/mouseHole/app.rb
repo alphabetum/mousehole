@@ -67,6 +67,20 @@ module MouseHole
       end
     end
 
+    def rewrite_request? page
+      false
+    end
+
+    def do_request_rewrite(page)
+      nrequest = nil
+      begin
+        nrequest = request_rewrite(request)
+      rescue Exception => e
+        error "Request rewrite failed"
+      end
+      nrequest || request
+    end
+
     def find_handler(opts = {})
       if handlers
         handlers.each do |h_is, h_name, h_blk, h_opts|
