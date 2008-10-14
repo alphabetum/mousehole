@@ -16,13 +16,15 @@ module MouseHole
   end
 
   class Page
-    Attributes = [:location, :status, :headers, :converter, :document, :input]
+    Attributes = [:location, :status, :headers, :converter, :document, 
+      :input, :request]
     attr_accessor *Attributes
-    def initialize(uri, status, headers)
+    def initialize(uri, status, headers, request)
       @location = uri
       @status = status
       @input = Camping.qsp(uri.query)
       @headers = PageHeaders[*headers]
+      @request = request
       ctype = @headers['Content-Type']
       if ctype
         ctype = ctype.split(';', 2)
@@ -34,7 +36,8 @@ module MouseHole
     # Used for loading marshalled Page object into Sandbox
     def self.restore(attribs)
       page = Page.new(attribs[Attributes.index(:location)], nil, 
-                      attribs[Attributes.index(:headers)])
+                      attribs[Attributes.index(:headers)],
+                      attribs[Attributes.index(:request)])
 
       Attributes.each_with_index do |attr, ndx| 
         page.send(attr.to_s+'=', attribs[ndx])

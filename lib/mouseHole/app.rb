@@ -63,6 +63,7 @@ module MouseHole
 
     def do_rewrite(page)
       @document = page.document
+      @request = page.request
       begin
         rewrite(page)
       rescue Exception => e

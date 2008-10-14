@@ -14,7 +14,7 @@ module MouseHole
       reqh, env = page_headers(request)
       header = []
       choose_header(reqh, header)
-      page = Page.new(URI(env['request-uri']), 404, header)
+      page = Page.new(URI(env['request-uri']), 404, header, request)
       @block.call(page)
       output(page, response)
     end
@@ -58,7 +58,7 @@ module MouseHole
         choose_header(resin.to_hash, header)
         set_via(header)
 
-        page = Page.new(uri, resin.code, header)
+        page = Page.new(uri, resin.code, header, request)
         if page.converter and !DOMAINS.include?(env['server-name']) and @central.rewrite(page, resin)
           info "*> rewriting #{page.location}", :since => start
           output(page, response)
