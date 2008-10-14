@@ -65,6 +65,10 @@ opts = OptionParser.new do |opts|
     options.log_level = Logger::DEBUG
   end
 
+  opts.on("--dnsruby", "Replace default ruby dns impl with dnsruby if installed.  This solves a lot of timeout issues.") do |v|
+    options.dnsruby = v
+  end
+
   opts.separator ""
   opts.separator "Common options:"
   
@@ -85,6 +89,15 @@ end
 opts.parse! ARGV
 options.host = ARGV[0] || "0.0.0.0"
 options.port = ARGV[1] || 3704
+
+if options.dnsruby
+  begin
+    require 'dnsruby'
+    Resolv = Dnsruby::Resolv
+  rescue
+    abort 'dnsruby is not installed'
+  end
+end
 
 proxy_uri = nil
 if env_http_proxy = ENV["HTTP_PROXY"]
