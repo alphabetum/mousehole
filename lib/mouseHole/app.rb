@@ -30,7 +30,10 @@ module MouseHole
       if self.handlers
         self.handlers.each do |h_is, h_name, h_blk|
           next unless h_is == :mount
-          server.unregister "/#{h_name}"
+          begin
+            server.unregister "/#{h_name}"
+          rescue
+          end
           server.register "/#{h_name}", h_blk
         end
       end
